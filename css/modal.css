@@ -6,12 +6,12 @@
     height: 100%;
     background: #00000090;
     opacity: 0;
-    z-index: -1;
+    pointer-events: none;
 }
 
 .modal.active{
     opacity: 1;
-    z-index: 1;
+    pointer-events: all;
 }
 
 .modal-content{
@@ -27,14 +27,12 @@
 
 .modal-header{
     display: flex;
-    position: relative;
     justify-content: center;
+    align-items: center;
+    position: relative;
     height: 40px;
-    line-height: 40px;
     font-size: 1rem;
 }
-
-
 
 .modal-close{
     position: absolute;
@@ -74,7 +72,6 @@
     border: 2px solid var(--primary-color);
     box-shadow: 0 0 3px var(--primary-color);
 }
-
 
 .modal-footer{
     background-color: inherit;

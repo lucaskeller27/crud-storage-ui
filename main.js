@@ -11,20 +11,18 @@ const closeModal = () => {
 const getLocalStorage = () => JSON.parse(localStorage.getItem('db_produto')) ?? []
 const setLocalStorage = (dbProduto) => localStorage.setItem("db_produto", JSON.stringify(dbProduto))
 
-// CRUD - create read update delete
+// CRUD (Create, Read, Update, Delete)
 const deleteProduto = (index) => {
-    const dbProduto = readProduto()
+    const dbProduto = getLocalStorage()
     dbProduto.splice(index, 1)
     setLocalStorage(dbProduto)
 }
 
 const updateProduto = (index, produto) => {
-    const dbProduto = readProduto()
+    const dbProduto = getLocalStorage()
     dbProduto[index] = produto
     setLocalStorage(dbProduto)
 }
-
-const readProduto = () => getLocalStorage()
 
 const createProduto = (produto) => {
     const dbProduto = getLocalStorage()
@@ -36,7 +34,7 @@ const isValidFields = () => {
     return document.getElementById('form').reportValidity()
 }
 
-//Interação com o layout
+// Interação com o layout
 
 const clearFields = () => {
     const fields = document.querySelectorAll('.modal-field')
@@ -55,15 +53,14 @@ const saveProduto = () => {
             data: document.getElementById('data').value
         }
         const index = document.getElementById('nome').dataset.index
-        if (index == 'new') {
+        if (index === 'new') {
             createProduto(produto)
-            updateTable()
-            closeModal()
         } else {
-            updateProduto(index, produto)
-            updateTable()
-            closeModal()
+            updateProduto(Number(index), produto)
         }
+
+        updateTable()
+        closeModal()
     }
 }
 
@@ -84,12 +81,11 @@ const createRow = (produto, index) => {
 }
 
 const clearTable = () => {
-    const rows = document.querySelectorAll('#tableProduto>tbody tr')
-    rows.forEach(row => row.parentNode.removeChild(row))
+    document.querySelector('#tableProduto>tbody').innerHTML = ''
 }
 
 const updateTable = () => {
-    const dbProduto = readProduto()
+    const dbProduto = getLocalStorage()
     clearTable()
     dbProduto.forEach(createRow)
 }
@@ -104,7 +100,7 @@ const fillFields = (produto) => {
 }
 
 const editProduto = (index) => {
-    const produto = readProduto()[index]
+    const produto = getLocalStorage()[index]
     produto.index = index
     fillFields(produto)
     document.querySelector(".modal-header>h2").textContent  = `Editando ${produto.nome}`
@@ -119,7 +115,7 @@ const editDelete = (event) => {
         if (action == 'edit') {
             editProduto(index)
         } else {
-            const produto = readProduto()[index]
+            const produto = getLocalStorage()[index]
             const response = confirm(`Deseja realmente excluir o produto ${produto.nome}?`)
             if (response) {
                 deleteProduto(index)

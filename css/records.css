@@ -11,8 +11,7 @@
     font-size: 1.2rem;    
 }
 .records td{
-    height: 50px;
-    padding-left: 20px;
+    padding: 10px 20px;
 }
 
 .records th:last-child,
@@ -23,7 +22,7 @@
 }
 
 .records tr:hover{
-    background-color: var(--secundary-color);
+    background: var(--secundary-color);
 }
 
 @media(max-width:480px){
